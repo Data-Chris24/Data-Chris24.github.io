@@ -81,7 +81,7 @@
   <section>
     <div class="container">
       <h2>Summary</h2>
-      <p class="summary">I architected and led development of a full-stack internal Revenue Cycle Management workflow platform that centralized insurance-payment posting, issue resolution, access control, auditability, and operational reporting. The UAT-stage platform processed production data from seven daily bank files covering all 11 practice-management systems, classified approximately 3,000 actionable insurance-payment records from approximately 12,000 daily banking transactions, and replaced fragmented Excel-based workflows with governed queues and record-level history.</p>
+      <p class="summary">I architected and led development of a full-stack internal Revenue Cycle Management workflow platform that centralized insurance-payment posting, issue resolution, access control, auditability, and operational reporting. The UAT-stage platform processed production data from seven bank files (five daily and two weekly) covering all 11 practice-management systems, classified approximately 3,000 actionable insurance-payment records from approximately 12,000 daily banking transactions, and replaced fragmented Excel-based workflows with governed queues and record-level history.</p>
     </div>
   </section>
 
@@ -98,11 +98,11 @@
       <div class="diagram">
         <svg viewBox="0 0 1080 330" role="img" aria-labelledby="d-title d-desc">
           <title id="d-title">Revenue Cycle Management platform architecture</title>
-          <desc id="d-desc">Seven daily bank files are uploaded through a Flask Upload Manager on Databricks Apps that validates them, converts them to Parquet, stores them in a Databricks Volume, and triggers ingestion. Pipelines classify transactions with centralized mapping rules into Delta tables served through a SQL Warehouse and stored procedures. The RCM application presents cash-posting queues with record locks, escalations, and threaded notes, filtered by mapping-driven access, and feeds operational reporting.</desc>
+          <desc id="d-desc">Seven bank files, five daily and two weekly, are uploaded through a Flask Upload Manager on Databricks Apps that validates them, converts them to Parquet, stores them in a Databricks Volume, and triggers ingestion. Pipelines classify transactions with centralized mapping rules into Delta tables served through a SQL Warehouse and stored procedures. The RCM application presents cash-posting queues with record locks, escalations, and threaded notes, filtered by mapping-driven access, and feeds operational reporting.</desc>
           <defs><marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4 0 8z" fill="#5c6672"/></marker></defs>
           <g>
             <rect class="box-soft" x="15" y="30" width="235" height="80" rx="8"/>
-            <text class="label" x="132" y="58" text-anchor="middle"><tspan x="132">7 bank files per</tspan><tspan x="132" dy="17">business day</tspan><tspan x="132" dy="17">CSV, some XLSX</tspan></text>
+            <text class="label" x="132" y="58" text-anchor="middle"><tspan x="132">7 bank files:</tspan><tspan x="132" dy="17">5 daily, 2 weekly</tspan><tspan x="132" dy="17">CSV, some XLSX</tspan></text>
             <rect class="box" x="280" y="30" width="235" height="80" rx="8"/>
             <text class="label" x="397" y="58" text-anchor="middle"><tspan x="397">Upload Manager</tspan><tspan x="397" dy="17">Flask on Databricks Apps:</tspan><tspan x="397" dy="17">validate, Parquet, Volume</tspan></text>
             <rect class="box" x="545" y="30" width="235" height="80" rx="8"/>
@@ -180,7 +180,7 @@
         <table>
           <thead><tr><th scope="col">Measure</th><th scope="col">Status and value</th></tr></thead>
           <tbody>
-            <tr><td>Daily source files</td><td>7 bank files on business days</td></tr>
+            <tr><td>Source files</td><td>7 bank files: 5 daily on business days and 2 weekly</td></tr>
             <tr><td>Daily bank transactions</td><td>Approximately 12,000</td></tr>
             <tr><td>Candidate insurance-payment workflows</td><td>Approximately 3,000</td></tr>
             <tr><td>Practice-management systems represented in production data</td><td>11</td></tr>
