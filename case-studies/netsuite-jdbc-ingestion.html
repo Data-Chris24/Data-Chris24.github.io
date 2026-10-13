@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NetSuite JDBC Ingestion Framework | Christopher Mims</title>
+  <meta name="description" content="Case study: a development-stage Databricks ingestion framework for large, wide NetSuite tables using a custom Unity Catalog JDBC connection, certificate-backed OAuth 2.0 machine-to-machine authentication, and tiled concurrent extraction.">
+  <link rel="canonical" href="https://data-chris24.github.io/case-studies/netsuite-jdbc-ingestion.html">
+  <meta name="theme-color" content="#040b14">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="NetSuite JDBC Ingestion Framework | Christopher Mims">
+  <meta property="og:description" content="Development-stage framework: nearly 700,000 rows and ~150 columns in about 10 minutes through eight-channel row-and-column tiling.">
+  <meta property="og:url" content="https://data-chris24.github.io/case-studies/netsuite-jdbc-ingestion.html">
+  <meta property="og:image" content="https://data-chris24.github.io/assets/img/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/favicon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="cs">
+<a class="skip" href="#main">Skip to content</a>
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 2h8l5 5v15H6zM14 2v5h5M9 13h6M9 17h6"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-quote" viewBox="0 0 24 24"><path d="M5 15h4v-4H6a3 3 0 0 1 3-3V6a5 5 0 0 0-5 5zM14 15h4v-4h-3a3 3 0 0 1 3-3V6a5 5 0 0 0-5 5z"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+  <symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></symbol>
+  <symbol id="i-linkedin" viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/></symbol>
+</svg>
+
+<button class="nav-toggle" aria-controls="sidebar" aria-expanded="false" aria-label="Open menu">
+  <svg class="icon icon--open"><use href="#i-menu"/></svg>
+  <svg class="icon icon--close"><use href="#i-close"/></svg>
+</button>
+
+<header id="sidebar" class="sidebar">
+  <div class="logo"><a href="../index.html"><img src="../assets/img/logo.svg" alt="DataChris24 astronaut logo" width="120" height="120"></a></div>
+  <p class="name">Chris Mims</p>
+  <p class="pronouns">He/Him</p>
+  <ul class="social">
+    <li><a href="https://www.linkedin.com/in/datachris24m/" aria-label="LinkedIn profile"><svg class="icon icon--fill"><use href="#i-linkedin"/></svg></a></li>
+    <li><a href="https://github.com/Data-Chris24" aria-label="GitHub profile"><svg class="icon icon--fill"><use href="#i-github"/></svg></a></li>
+    <li><a href="mailto:datachris24@gmail.com" aria-label="Email Chris"><svg class="icon"><use href="#i-mail"/></svg></a></li>
+  </ul>
+  <nav aria-label="Primary">
+    <ul>
+      <li><a href="../index.html"><svg class="icon"><use href="#i-home"/></svg>Home</a></li>
+      <li><a href="../index.html#about"><svg class="icon"><use href="#i-user"/></svg>About</a></li>
+      <li><a href="../index.html#skills"><svg class="icon"><use href="#i-code"/></svg>Skills</a></li>
+      <li><a href="../index.html#resume"><svg class="icon"><use href="#i-doc"/></svg>Resume</a></li>
+      <li><a href="../index.html#case-studies" class="active" aria-current="true"><svg class="icon"><use href="#i-grid"/></svg>Case Studies</a></li>
+      <li><a href="../index.html#testimonials"><svg class="icon"><use href="#i-quote"/></svg>Testimonials</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+  <div class="page-title">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol><li><a href="../index.html">Home</a></li><li><a href="../index.html#case-studies">Case studies</a></li><li>NetSuite JDBC Ingestion Framework</li></ol>
+      </nav>
+      <span class="badge badge--dev">Development stage · not deployed</span>
+      <h1>NetSuite JDBC Ingestion Framework</h1>
+      <p class="meta">Keplr Vision · March 2025 to July 2026</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+      <h2>Summary</h2>
+      <p class="summary">I designed a development-stage Databricks ingestion framework for extracting large, wide, and sensitive NetSuite datasets through a custom JDBC connection I created in Unity Catalog with OAuth 2.0 machine-to-machine authentication. The design used row-and-column tiling, controlled concurrency, incremental loading, and restartable CLOB backfills to reduce NetSuite server load. In testing, it extracted nearly 700,000 rows and approximately 150 columns, excluding four CLOB columns, in about 10 minutes before backfilling the memory-intensive fields separately.</p>
+    </div>
+  </section>
+
+  <section class="light">
+    <div class="container">
+      <h2>Context and problem</h2>
+      <p>I first prototyped a reusable NetSuite API class, then found that large, wide target tables caused silent server-side failures. Some targets held more than 2 million records, and more than 2,600 tables were available. A conventional JDBC approach failed the same way. The managed Databricks NetSuite connector lacked the OAuth 2.0 connection required for the critical sensitive data. So I created a custom JDBC connection in Unity Catalog, using the NetSuite-provided JDBC JAR, that accepts runtime configuration and lets an OAuth authorization string be injected dynamically.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2>Architecture</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 1080 330" role="img" aria-labelledby="d-title d-desc">
+          <title id="d-title">NetSuite JDBC ingestion framework architecture</title>
+          <desc id="d-desc">A token function builds a JWT from a certificate, exchanges it for a sixty-minute OAuth access token stored through a Databricks secret scope, and injects it into a custom Unity Catalog JDBC connection. A tiled extractor queries NetSuite across eight concurrent channels in bounded row and column tiles that each keep the record ID, Databricks reassembles the rows into bronze Delta tables, and a separate restartable backfill loads CLOB columns one column and one thousand rows at a time. A configuration table drives per-table settings and a metrics table records each run.</desc>
+          <defs><marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4 0 8z" fill="#5c6672"/></marker></defs>
+          <g>
+            <rect class="box-soft" x="15" y="30" width="235" height="80" rx="8"/>
+            <text class="label" x="132" y="58" text-anchor="middle"><tspan x="132">NetSuite</tspan><tspan x="132" dy="17">2,600+ tables, some</tspan><tspan x="132" dy="17">with 2M+ rows</tspan></text>
+            <rect class="box" x="280" y="30" width="235" height="80" rx="8"/>
+            <text class="label" x="397" y="52" text-anchor="middle"><tspan x="397">Unity Catalog custom</tspan><tspan x="397" dy="17">JDBC connection with</tspan><tspan x="397" dy="17">OAuth 2.0 M2M: cert, JWT,</tspan><tspan x="397" dy="17">Key Vault, secret scopes</tspan></text>
+            <rect class="box-dark" x="545" y="30" width="235" height="80" rx="8"/>
+            <text class="label-light" x="662" y="52" text-anchor="middle"><tspan x="662">Tiled extraction</tspan><tspan x="662" dy="17">8 concurrent channels,</tspan><tspan x="662" dy="17">up to 50 columns and</tspan><tspan x="662" dy="17">500,000 rows per tile</tspan></text>
+            <rect class="box" x="810" y="30" width="255" height="80" rx="8"/>
+            <text class="label" x="937" y="58" text-anchor="middle"><tspan x="937">Reassembly in Databricks</tspan><tspan x="937" dy="17">by record ID into</tspan><tspan x="937" dy="17">bronze Delta tables</tspan></text>
+
+            <rect class="box-soft" x="280" y="210" width="235" height="80" rx="8"/>
+            <text class="label" x="397" y="238" text-anchor="middle"><tspan x="397">Token function</tspan><tspan x="397" dy="17">60-minute lifetime,</tspan><tspan x="397" dy="17">refresh only on expiry</tspan></text>
+            <rect class="box-soft" x="545" y="210" width="235" height="80" rx="8"/>
+            <text class="label" x="662" y="238" text-anchor="middle"><tspan x="662">Configuration table</tspan><tspan x="662" dy="17">active flag, concurrency,</tspan><tspan x="662" dy="17">row limits, exclusions</tspan></text>
+            <rect class="box-soft" x="810" y="210" width="255" height="80" rx="8"/>
+            <text class="label" x="937" y="238" text-anchor="middle"><tspan x="937">CLOB backfill</tspan><tspan x="937" dy="17">1 column × 1,000 rows</tspan><tspan x="937" dy="17">per request, restartable</tspan></text>
+          </g>
+          <g class="arrow">
+            <path d="M278 70H252"/><path d="M543 70H517"/><path d="M780 70H808"/>
+            <path d="M397 208V112"/><path d="M662 208V112"/><path d="M937 208V112"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="light">
+    <div class="container">
+      <h2>What I built</h2>
+      <div class="two-col">
+        <div>
+          <h3>OAuth 2.0 machine-to-machine design</h3>
+          <ul>
+            <li>A security certificate uploaded to NetSuite and a NetSuite integration configured for the machine-to-machine token flow.</li>
+            <li>A JWT for the token endpoint that returns a 60-minute OAuth access token.</li>
+            <li>Source secrets in Azure Key Vault read through Databricks secret scopes, and the resulting token stored through a secret scope so it is redacted from notebook output and logs.</li>
+            <li>A reusable token function that checks whether a refresh is needed and requests a new token only after expiration, then injects the authorization string into the JDBC connection at runtime.</li>
+          </ul>
+          <h3>Tiled extraction</h3>
+          <p>Large row counts and wide schemas kept overloading the connection. The strategy divides queries across bounded sets of rows and columns, includes the record ID in every column tile so results can be reconstructed, queries tiles concurrently, reassembles complete records on the Databricks side, and shifts compute to Databricks while reducing the response burden on NetSuite. Default tiling spreads a table's columns across eight channels, caps each tile at 50 columns including the ID, and allows up to 500,000 rows per row tile.</p>
+        </div>
+        <div>
+          <h3>CLOB backfill and recoverability</h3>
+          <p>CLOB fields were isolated from the main tiled load so they could not destabilize otherwise efficient extraction. A separate backfill loads the four CLOB columns one column and 1,000 rows per request, and resumes after an interruption instead of restarting the whole extraction.</p>
+          <h3>Metadata-driven configuration and incremental loads</h3>
+          <ul>
+            <li>A configuration table with an active flag for integration selection, maximum concurrent connections, rows per tile, column-exclusion lists, and other table-specific settings.</li>
+            <li>Initial loads designed for an environment with data back to at least 2013 covering more than 250 practices; incremental loads using a last-modified field, when available, to select rows newer than the prior run.</li>
+            <li>A metrics table tracking prior run information as a foundation for data-quality checks and operational visibility. Test incremental extractions generally finished within a few minutes or seconds for the tables evaluated.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2>Ownership</h2>
+      <div class="ownership">
+        <div class="box">
+          <h3>Personally designed and authored</h3>
+          <ul>
+            <li>Evaluated the API and JDBC options and created the custom JDBC connection in Unity Catalog.</li>
+            <li>Designed the OAuth and token-refresh flow and the token lifecycle.</li>
+            <li>Proposed the row-and-column tiling strategy and designed the bronze-table ingestion direction.</li>
+            <li>Personally tested approximately 12 tables.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>AI-assisted, under my direction and review</h3>
+          <ul>
+            <li>Claude Code helped diagnose bottlenecks through iterative testing and identified CLOB fields as the common factor in failed tiles.</li>
+            <li>Claude Code helped design the restartable CLOB backfill and implemented the connection, setup, and bronze-ingestion notebooks.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light">
+    <div class="container">
+      <h2>Scale and performance</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Measure</th><th scope="col">Value (development testing)</th></tr></thead>
+          <tbody>
+            <tr><td>Available NetSuite tables</td><td>More than 2,600</td></tr>
+            <tr><td>Largest target tables observed</td><td>More than 2 million records</td></tr>
+            <tr><td>Representative performance test</td><td>Items table: nearly 700,000 rows and approximately 150 columns, excluding 4 CLOB columns, in about 10 minutes</td></tr>
+            <tr><td>Tables personally tested</td><td>Approximately 12</td></tr>
+            <tr><td>Concurrent extraction channels</td><td>8</td></tr>
+            <tr><td>Default column tiling</td><td>Columns spread across 8 channels; at most 50 columns per tile including the ID</td></tr>
+            <tr><td>Default row tiling</td><td>At most 500,000 rows per tile</td></tr>
+            <tr><td>CLOB backfill tiling</td><td>1 column and 1,000 rows per request</td></tr>
+            <tr><td>NetSuite history</td><td>At least as early as 2013</td></tr>
+            <tr><td>Organizational scope</td><td>More than 250 practices</td></tr>
+            <tr><td>OAuth token lifetime</td><td>60 minutes</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2>Status and boundaries</h2>
+      <div class="callout">
+        <h3>Development stage, not deployed to production</h3>
+        <ul>
+          <li>The framework was being tested in the development environment when I left. Connection, setup, bronze-ingestion, token-management, tiling, and CLOB-backfill notebooks were implemented.</li>
+          <li>The transaction table, which spans more than four transaction types, showed an additional anomaly whose root cause and fix were not completed.</li>
+          <li>No formal production validation or reconciliation framework was completed; the metrics table is development-stage run tracking, not a production observability platform.</li>
+          <li>Intended downstream uses (Encompass-to-NetSuite journal entries, procurement-request automation, Power BI trial-balance reporting, inventory visibility) are intentions, not realized outcomes of this framework.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="light">
+    <div class="container">
+      <h2>Technologies</h2>
+      <ul class="chips">
+        <li>Azure Databricks</li><li>Unity Catalog custom JDBC connection</li><li>NetSuite JDBC driver</li><li>NetSuite</li><li>OAuth 2.0 machine-to-machine</li><li>JWT and security certificates</li><li>Azure Key Vault</li><li>Databricks secret scopes</li><li>Delta Lake bronze tables</li><li>Parallel tiled extraction</li><li>Claude Code</li>
+      </ul>
+      <nav class="pager" aria-label="Case study navigation">
+        <a href="revenue-cycle-management-platform.html"><svg class="icon"><use href="#i-arrow-left"/></svg> Previous: Revenue Cycle Management Platform</a>
+        <a href="psi-consolidated-billing-automation.html">Next: Consolidated Billing Automation <svg class="icon"><use href="#i-arrow-right"/></svg></a>
+      </nav>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="links">
+    <a href="https://www.linkedin.com/in/datachris24m/">LinkedIn</a>
+    <a href="https://github.com/Data-Chris24">GitHub</a>
+    <a href="mailto:datachris24@gmail.com">Email</a>
+  </div>
+  <p>&copy; <span id="year">2026</span> Christopher Mims</p>
+  <p>Hand-written HTML, CSS, and JavaScript. No trackers.</p>
+</footer>
+
+<script src="../assets/js/main.js" defer></script>
+</body>
+</html>

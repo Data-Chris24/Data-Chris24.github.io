@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Consolidated Billing Automation | Christopher Mims</title>
+  <meta name="description" content="Case study: automating an inherited monthly consolidated-billing workflow across 13 client locations with Sage Intacct Smart Events, cutting monthly effort from about 40 hours to about 1.5 hours while keeping duplicate-billing controls.">
+  <link rel="canonical" href="https://data-chris24.github.io/case-studies/psi-consolidated-billing-automation.html">
+  <meta name="theme-color" content="#040b14">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Consolidated Billing Automation | Christopher Mims">
+  <meta property="og:description" content="Sage Intacct Smart Events automation: about 40 hours to about 1.5 hours per month across 13 locations and 150–500+ invoices.">
+  <meta property="og:url" content="https://data-chris24.github.io/case-studies/psi-consolidated-billing-automation.html">
+  <meta property="og:image" content="https://data-chris24.github.io/assets/img/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/favicon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="cs">
+<a class="skip" href="#main">Skip to content</a>
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 2h8l5 5v15H6zM14 2v5h5M9 13h6M9 17h6"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-quote" viewBox="0 0 24 24"><path d="M5 15h4v-4H6a3 3 0 0 1 3-3V6a5 5 0 0 0-5 5zM14 15h4v-4h-3a3 3 0 0 1 3-3V6a5 5 0 0 0-5 5z"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+  <symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></symbol>
+  <symbol id="i-linkedin" viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/></symbol>
+</svg>
+
+<button class="nav-toggle" aria-controls="sidebar" aria-expanded="false" aria-label="Open menu">
+  <svg class="icon icon--open"><use href="#i-menu"/></svg>
+  <svg class="icon icon--close"><use href="#i-close"/></svg>
+</button>
+
+<header id="sidebar" class="sidebar">
+  <div class="logo"><a href="../index.html"><img src="../assets/img/logo.svg" alt="DataChris24 astronaut logo" width="120" height="120"></a></div>
+  <p class="name">Chris Mims</p>
+  <p class="pronouns">He/Him</p>
+  <ul class="social">
+    <li><a href="https://www.linkedin.com/in/datachris24m/" aria-label="LinkedIn profile"><svg class="icon icon--fill"><use href="#i-linkedin"/></svg></a></li>
+    <li><a href="https://github.com/Data-Chris24" aria-label="GitHub profile"><svg class="icon icon--fill"><use href="#i-github"/></svg></a></li>
+    <li><a href="mailto:datachris24@gmail.com" aria-label="Email Chris"><svg class="icon"><use href="#i-mail"/></svg></a></li>
+  </ul>
+  <nav aria-label="Primary">
+    <ul>
+      <li><a href="../index.html"><svg class="icon"><use href="#i-home"/></svg>Home</a></li>
+      <li><a href="../index.html#about"><svg class="icon"><use href="#i-user"/></svg>About</a></li>
+      <li><a href="../index.html#skills"><svg class="icon"><use href="#i-code"/></svg>Skills</a></li>
+      <li><a href="../index.html#resume"><svg class="icon"><use href="#i-doc"/></svg>Resume</a></li>
+      <li><a href="../index.html#case-studies" class="active" aria-current="true"><svg class="icon"><use href="#i-grid"/></svg>Case Studies</a></li>
+      <li><a href="../index.html#testimonials"><svg class="icon"><use href="#i-quote"/></svg>Testimonials</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+  <div class="page-title">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol><li><a href="../index.html">Home</a></li><li><a href="../index.html#case-studies">Case studies</a></li><li>Consolidated Billing Automation</li></ol>
+      </nav>
+      <span class="badge badge--production">Production</span>
+      <h1>Consolidated Billing Automation</h1>
+      <p class="meta">Performance Systems Integration · June 2022 to October 2022, then handed off</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+      <h2>Summary</h2>
+      <p class="summary">I redesigned and automated an inherited, labor-intensive monthly billing workflow for 13 client locations using Sage Intacct Smart Events. After taking responsibility for the manual process in June 2022, I had the automation and its supporting business process established by October 2022. The solution dynamically paired qualifying invoices to the correct parent invoice and reduced monthly effort from approximately 40 hours to approximately 1.5 hours while preserving final validation for completeness and duplicate billing.</p>
+    </div>
+  </section>
+
+  <section class="light">
+    <div class="container">
+      <h2>Context and problem</h2>
+      <p>The client needed one consolidated invoice per month for each location rather than hundreds of individual invoices. The original process meant creating a master invoice for every location, running location-specific reports, finding each individual invoice, manually assigning its parent invoice, and then completing the master invoice.</p>
+      <p>After ServiceTrade was introduced, invoices also had to be verified and pushed to Sage Intacct. Staff closed jobs, checked that work had not been billed twice, and then repeated the same parent-invoice process. The combined workload contributed to a billing backlog.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2>Architecture</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 1090 170" role="img" aria-labelledby="d-title d-desc">
+          <title id="d-title">Consolidated billing automation flow</title>
+          <desc id="d-desc">ServiceTrade jobs are closed and verified, invoices are created in Sage Intacct, Smart Events match each new invoice on client, location, and billing period and assign it to the parent invoice for that location, end-of-cycle checks catch missing parent assignments and duplicate billing, and one consolidated invoice per location goes to the client.</desc>
+          <defs><marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4 0 8z" fill="#5c6672"/></marker></defs>
+          <g>
+            <rect class="box-soft" x="15" y="40" width="160" height="90" rx="8"/>
+            <text class="label" x="95" y="76" text-anchor="middle"><tspan x="95">ServiceTrade jobs</tspan><tspan x="95" dy="17">closed and verified</tspan></text>
+            <rect class="box-soft" x="195" y="40" width="160" height="90" rx="8"/>
+            <text class="label" x="275" y="76" text-anchor="middle"><tspan x="275">Sage Intacct</tspan><tspan x="275" dy="17">invoices created</tspan></text>
+            <rect class="box-dark" x="375" y="40" width="160" height="90" rx="8"/>
+            <text class="label-light" x="455" y="68" text-anchor="middle"><tspan x="455">Smart Events</tspan><tspan x="455" dy="17">match client, location,</tspan><tspan x="455" dy="17">and billing period</tspan></text>
+            <rect class="box" x="555" y="40" width="160" height="90" rx="8"/>
+            <text class="label" x="635" y="68" text-anchor="middle"><tspan x="635">Assigned to the</tspan><tspan x="635" dy="17">parent (master)</tspan><tspan x="635" dy="17">invoice per location</tspan></text>
+            <rect class="box" x="735" y="40" width="160" height="90" rx="8"/>
+            <text class="label" x="815" y="68" text-anchor="middle"><tspan x="815">End-of-cycle checks</tspan><tspan x="815" dy="17">missing parents,</tspan><tspan x="815" dy="17">duplicate billing</tspan></text>
+            <rect class="box-soft" x="915" y="40" width="160" height="90" rx="8"/>
+            <text class="label" x="995" y="68" text-anchor="middle"><tspan x="995">One consolidated</tspan><tspan x="995" dy="17">invoice per location</tspan><tspan x="995" dy="17">to the client</tspan></text>
+          </g>
+          <g class="arrow">
+            <path d="M175 85H193"/><path d="M355 85H373"/><path d="M535 85H553"/><path d="M715 85H733"/><path d="M895 85H913"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="light">
+    <div class="container">
+      <h2>What I built</h2>
+      <div class="two-col">
+        <div>
+          <h3>Solution design</h3>
+          <ul>
+            <li>Mapped the manual workflow and identified Sage Intacct Smart Events as the automation mechanism; available Sage Intacct API volume was constrained at the time, so the automation lives entirely in Smart Events.</li>
+            <li>Configured logic for each billing month, the following month, and each applicable client location.</li>
+            <li>Evaluated newly created ERP invoices against client and location criteria and dynamically assigned matching invoices to the appropriate parent invoice.</li>
+            <li>Reduced the recurring manual work to creating the master invoices, updating dates and master-invoice numbers in the Smart Events, and completing final validation.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Validation, controls, and handoff</h3>
+          <ul>
+            <li>Verified that every qualifying invoice was assigned to a parent invoice and checked for duplicate billing before completing the cycle; the final master invoice was completed only after those checks passed.</li>
+            <li>Kept human validation for the highest-risk steps rather than treating automation as proof of correctness.</li>
+            <li>Trained the next process owner over several months so the workflow could continue reliably as my responsibilities shifted toward data analytics.</li>
+          </ul>
+          <h3>Related integration improvement</h3>
+          <p>Separately, with Sage Intacct API capacity limited, I identified inefficient webhook behavior in a third-party Salesforce-to-Sage Intacct integration and challenged the partner's design. The partner reconfigured its webhook usage, reducing Sage Intacct API consumption by nearly half.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2>Ownership</h2>
+      <div class="ownership">
+        <div class="box">
+          <h3>Personally designed and built</h3>
+          <ul>
+            <li>The Smart Events automation, the supporting business process, and the end-of-cycle controls.</li>
+            <li>The diagnosis and recommendation behind the webhook reconfiguration.</li>
+            <li>Training and transition to the next process owner.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Inherited or done by others</h3>
+          <ul>
+            <li>The original master-invoice process existed before me; I took responsibility for running it in June 2022 and then automated it.</li>
+            <li>The webhook change itself was implemented by the third-party integration partner following my diagnosis.</li>
+            <li>No AI coding tools were involved; this predates my use of them.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light">
+    <div class="container">
+      <h2>Scale and outcomes</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Measure</th><th scope="col">Result</th></tr></thead>
+          <tbody>
+            <tr><td>Client locations</td><td>13</td></tr>
+            <tr><td>Monthly invoice volume</td><td>Approximately 150–200 in slower months; more than 500 in peak summer months</td></tr>
+            <tr><td>Original monthly effort</td><td>Approximately 40 hours</td></tr>
+            <tr><td>Automated monthly effort</td><td>Approximately 1.5 hours</td></tr>
+            <tr><td>Derived effort reduction</td><td>Approximately 96%, derived from the two figures above</td></tr>
+            <tr><td>Timeline</td><td>Took over the manual process June 2022; automation and process established October 2022</td></tr>
+            <tr><td>Client-facing outcome</td><td>One consolidated monthly invoice per location instead of hundreds of individual invoices</td></tr>
+            <tr><td>Related webhook improvement</td><td>Sage Intacct API consumption cut by nearly half</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2>Status and boundaries</h2>
+      <div class="callout">
+        <h3>Production, handed off to the next owner</h3>
+        <ul>
+          <li>This automation used Sage Intacct Smart Events, not its API, and did not involve Snowflake, dbt, Airflow, Python, or SQL.</li>
+          <li>Invoice volumes are seasonal ranges, not a constant monthly figure. I do not claim a dollar impact.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="light">
+    <div class="container">
+      <h2>Technologies</h2>
+      <ul class="chips">
+        <li>Sage Intacct Smart Events</li><li>Sage Intacct</li><li>ServiceTrade</li><li>Salesforce webhooks</li><li>Microsoft Excel</li><li>PDF field-service documentation</li><li>Microsoft Teams</li>
+      </ul>
+      <nav class="pager" aria-label="Case study navigation">
+        <a href="netsuite-jdbc-ingestion.html"><svg class="icon"><use href="#i-arrow-left"/></svg> Previous: NetSuite JDBC Ingestion Framework</a>
+        <a href="../index.html#case-studies">All case studies <svg class="icon"><use href="#i-arrow-right"/></svg></a>
+      </nav>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="links">
+    <a href="https://www.linkedin.com/in/datachris24m/">LinkedIn</a>
+    <a href="https://github.com/Data-Chris24">GitHub</a>
+    <a href="mailto:datachris24@gmail.com">Email</a>
+  </div>
+  <p>&copy; <span id="year">2026</span> Christopher Mims</p>
+  <p>Hand-written HTML, CSS, and JavaScript. No trackers.</p>
+</footer>
+
+<script src="../assets/js/main.js" defer></script>
+</body>
+</html>

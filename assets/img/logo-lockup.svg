@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" role="img" aria-labelledby="lockup-title">
+  <title id="lockup-title">DataChris24 logo lockup</title>
+  <defs>
+    <linearGradient id="suit" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a78bfa"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+    <radialGradient id="visor" cx="0.38" cy="0.32" r="0.85">
+      <stop offset="0" stop-color="#2a1250"/>
+      <stop offset="1" stop-color="#0b0414"/>
+    </radialGradient>
+    <clipPath id="ring"><circle cx="256" cy="256" r="236"/></clipPath>
+    <clipPath id="visorClip"><circle cx="256" cy="236" r="94"/></clipPath>
+  </defs>
+  <rect width="1200" height="360" fill="#0b0414"/>
+  <g transform="translate(40 24) scale(0.61)">
+    <circle cx="256" cy="256" r="256" fill="#0b0414"/>
+    <circle cx="256" cy="256" r="236" fill="none" stroke="#5b21b6" stroke-width="12"/>
+    <circle cx="256" cy="256" r="216" fill="none" stroke="#8b5cf6" stroke-width="3" opacity="0.55"/>
+    <g fill="#e9d5ff">
+      <path d="M118 150l7 20 20 7-20 7-7 20-7-20-20-7 20-7z"/>
+      <path d="M394 150l7 20 20 7-20 7-7 20-7-20-20-7 20-7z"/>
+      <path d="M96 332l5 14 14 5-14 5-5 14-5-14-14-5 14-5z"/>
+      <path d="M416 332l5 14 14 5-14 5-5 14-5-14-14-5 14-5z"/>
+      <circle cx="150" cy="98" r="4"/><circle cx="362" cy="98" r="4"/>
+    </g>
+    <g clip-path="url(#ring)">
+      <path d="M128 500c0-96 52-150 128-150s128 54 128 150z" fill="url(#suit)"/>
+      <path d="M128 500c0-96 52-150 128-150s128 54 128 150" fill="none" stroke="#e9d5ff" stroke-width="8"/>
+      <rect x="196" y="334" width="120" height="40" rx="20" fill="#5b21b6"/>
+      <rect x="196" y="334" width="120" height="40" rx="20" fill="none" stroke="#e9d5ff" stroke-width="6"/>
+      <rect x="222" y="398" width="68" height="48" rx="10" fill="#0b0414"/>
+      <circle cx="240" cy="414" r="7" fill="#c4b5fd"/>
+      <rect x="254" y="409" width="26" height="6" rx="3" fill="#c4b5fd"/>
+      <rect x="254" y="424" width="26" height="6" rx="3" fill="#c4b5fd"/>
+      <circle cx="240" cy="432" r="4" fill="#c4b5fd"/>
+    </g>
+    <circle cx="256" cy="236" r="126" fill="url(#suit)"/>
+    <circle cx="256" cy="236" r="126" fill="none" stroke="#e9d5ff" stroke-width="9"/>
+    <circle cx="256" cy="236" r="94" fill="url(#visor)"/>
+    <g clip-path="url(#visorClip)">
+      <circle cx="226" cy="206" r="72" fill="#e9d5ff"/>
+      <circle cx="248" cy="224" r="72" fill="url(#visor)"/>
+    </g>
+    <circle cx="256" cy="236" r="94" fill="none" stroke="#2e1065" stroke-width="7"/>
+    <circle cx="206" cy="268" r="8" fill="#e9d5ff"/>
+  </g>
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+    <text x="400" y="190" font-size="92" font-weight="300" letter-spacing="14" fill="#ffffff">DATACHRIS24</text>
+    <text x="404" y="262" font-size="40" font-weight="300" letter-spacing="12" fill="#c4b5fd">DATA ENGINEER</text>
+  </g>
+</svg>
