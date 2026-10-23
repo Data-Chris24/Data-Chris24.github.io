@@ -40,6 +40,7 @@
   <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-11a7 7 0 0 0-14 0c0 4.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
   <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5zM6 11.5V16c0 2 12 2 12 0v-4.5M22 9v6"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 13.9L7 22l5-3 5 3-1.5-8.1"/></symbol>
   <symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></symbol>
   <symbol id="i-linkedin" viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/></symbol>
 </svg>
@@ -64,6 +65,7 @@
       <li><a href="#about"><svg class="icon"><use href="#i-user"/></svg>About</a></li>
       <li><a href="#skills"><svg class="icon"><use href="#i-code"/></svg>Skills</a></li>
       <li><a href="#resume"><svg class="icon"><use href="#i-doc"/></svg>Resume</a></li>
+      <li><a href="#certifications"><svg class="icon"><use href="#i-award"/></svg>Certifications</a></li>
       <li><a href="#case-studies"><svg class="icon"><use href="#i-grid"/></svg>Case Studies</a></li>
       <li><a href="#testimonials"><svg class="icon"><use href="#i-quote"/></svg>Testimonials</a></li>
     </ul>
@@ -95,6 +97,7 @@
           <ul class="facts">
             <li><svg class="icon"><use href="#i-pin"/></svg><span><strong>Location:</strong> Spokane Valley, WA (remote)</span></li>
             <li><svg class="icon"><use href="#i-cap"/></svg><span><strong>Degree:</strong> B.S. Data Analytics, Minor in Business Administration, Washington State University</span></li>
+            <li><svg class="icon"><use href="#i-award"/></svg><span><strong>Certification:</strong> <a href="#certifications">Databricks Certified Data Engineer Associate</a></span></li>
             <li><svg class="icon"><use href="#i-mail"/></svg><span><strong>Email:</strong> <a href="mailto:datachris24@gmail.com">datachris24@gmail.com</a></span></li>
           </ul>
           <p>Most recently at Keplr Vision, I designed and delivered healthcare and financial data products supporting more than 250 independent optometry practices across 11 practice-management systems. My work included a production Patient Callback Platform used by 250+ active users, a reusable Dayforce API ingestion framework running four times daily, and an Encompass-to-NetSuite financial integration processing 100,000+ balanced journal-entry lines per month across 18 practices.</p>
@@ -150,7 +153,14 @@
             <span class="when">August 2018 – May 2022</span>
             <p>Washington State University Global Campus. WSU Coug Leadership Program.</p>
           </div>
-          <h3 class="resume-title">Certification</h3>
+          <h3 class="resume-title">Certifications</h3>
+          <div class="resume-item resume-item--cert">
+            <img src="assets/img/certs/databricks-data-engineer-associate-badge.png" alt="Databricks Certified Data Engineer Associate badge" width="72" height="72">
+            <h4>Databricks Certified Data Engineer Associate</h4>
+            <p class="org">Databricks</p>
+            <span class="when">Issued October 2026 | Credential ID 198035476</span>
+            <p><a href="#certifications">Certificate and verification</a></p>
+          </div>
           <div class="resume-item">
             <h4>Excel PivotTables</h4>
             <p class="org">Maven Analytics</p>
@@ -220,7 +230,34 @@
     </div>
   </section>
 
-  <section id="case-studies" class="case-studies light">
+  <section id="certifications" class="certifications light">
+    <div class="container">
+      <div class="section-title reveal"><h2>Certifications</h2><p>Third-party validation of the Databricks engineering behind the case studies below.</p></div>
+      <article class="card cert reveal">
+        <img class="cert-badge" src="assets/img/certs/databricks-data-engineer-associate-badge.png" alt="Databricks Certified Data Engineer Associate badge" width="400" height="400">
+        <div class="body">
+          <span class="badge badge--production">Active · Verified</span>
+          <h3>Databricks Certified Data Engineer Associate</h3>
+          <p class="org">Databricks</p>
+          <ul class="metrics">
+            <li><svg class="icon"><use href="#i-chevron"/></svg><span><strong>Issued:</strong> October 23, 2026</span></li>
+            <li><svg class="icon"><use href="#i-chevron"/></svg><span><strong>Expires:</strong> October 23, 2028</span></li>
+            <li><svg class="icon"><use href="#i-chevron"/></svg><span><strong>Credential ID:</strong> 198035476</span></li>
+          </ul>
+          <p>
+            <a href="https://credentials.databricks.com/57decc2d-cfe9-48e3-b7df-ee7dfb5db3b0">Verify on Databricks Credentials <svg class="icon"><use href="#i-external"/></svg></a>
+            &nbsp;·&nbsp;
+            <a href="assets/docs/Christopher_Mims_Databricks_Certified_Data_Engineer_Associate.pdf">View certificate (PDF) <svg class="icon"><use href="#i-doc"/></svg></a>
+          </p>
+        </div>
+        <a class="cert-preview" href="assets/docs/Christopher_Mims_Databricks_Certified_Data_Engineer_Associate.pdf" aria-label="Open the Databricks Certified Data Engineer Associate certificate (PDF)">
+          <img src="assets/img/certs/databricks-data-engineer-associate-certificate.jpg" alt="Databricks Certified Data Engineer Associate certificate issued to Christopher Mims" width="1000" height="772" loading="lazy">
+        </a>
+      </article>
+    </div>
+  </section>
+
+  <section id="case-studies" class="case-studies">
     <div class="container">
       <div class="section-title reveal"><h2>Case Studies</h2><p>The projects behind the resume bullets. Each page separates what I built personally from work assisted by AI coding tools, and labels how far the project got.</p></div>
       <div class="cards reveal">
@@ -300,7 +337,7 @@
     </div>
   </section>
 
-  <section id="public-analysis" class="public-analysis">
+  <section id="public-analysis" class="public-analysis light">
     <div class="container">
       <div class="section-title reveal"><h2>Public Analysis</h2><p>Work built on public data, with the code available.</p></div>
       <div class="cards reveal">
@@ -321,7 +358,7 @@
     </div>
   </section>
 
-  <section id="testimonials" class="testimonials light">
+  <section id="testimonials" class="testimonials">
     <div class="container">
       <div class="section-title reveal"><h2>Testimonials</h2><p>Kind words taken from LinkedIn recommendations or recommendation letters given to me by past co-workers and classmates.</p></div>
       <div class="testimonials-grid reveal">

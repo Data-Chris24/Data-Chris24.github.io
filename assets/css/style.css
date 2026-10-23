@@ -307,3 +307,15 @@ section { padding: var(--section-pad) 0; overflow: clip; }
 .diagram .label-light { font-size: 13px; fill: #ffffff; font-weight: 500; }
 .diagram .note { font-size: 11.5px; fill: var(--muted); }
 .diagram .arrow { stroke: #5c6672; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+
+/* ---------- certifications ---------- */
+.resume-item--cert img { float: right; width: 72px; height: 72px; margin: 0 0 8px 12px; }
+.resume-item--cert::after { content: ""; display: block; clear: both; }
+.cert { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: center; }
+.cert:hover { transform: none; }
+.cert-badge { width: 160px; height: auto; margin: 0 auto; }
+.cert .body { display: flex; flex-direction: column; gap: 10px; }
+.cert-preview img { width: 100%; height: auto; border-radius: var(--radius); box-shadow: var(--shadow); transition: transform 0.3s; }
+.cert-preview:hover img { transform: translateY(-4px); }
+@media (min-width: 768px) { .cert { grid-template-columns: 160px 1fr; } .cert-preview { grid-column: 1 / -1; } }
+@media (min-width: 1200px) { .cert { grid-template-columns: 180px 1fr 1.1fr; } .cert-badge { width: 180px; } .cert-preview { grid-column: auto; } }
